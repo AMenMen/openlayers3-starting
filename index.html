@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Map Openlayers 3</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/ol.css">
+
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/ol.js"></script>
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+	<div id="map" class="map"></div>
+
+	<h1 id="demo">My Map</h1>
+	<button type="button" onclick="myFunction()">Click now</button>
+
+	<p id="myFirstJavaScript">Change it</p>
+	<button type="button" onclick="myFirstJavaScript()">Click me</button>
+	
+	<button id="add" type="button" onclick="add()">Add Function</button> 
+	<!-- <p id="add"></p> -->
+
+	<p id="jsNo" onclick="JsNumbers()"></p>
+	<p id="jd"></p>
+	<p id="jd1"></p>
+
+	<button type="button" id="JsVar" onclick="JsVar()">JavaScript Varriable</button>
+
+	<p id="JsOper"></p>
+	<button type="button" onclick="AssOper()">Assignment Operator</button>
+	<p id="AssOper"></p>
+
+	<script type="text/javascript">
+		function myFunction() {
+			document.getElementById("demo").innerHTML = "Good morning!";
+		}
+
+		function add() {
+			var x = 12;
+			var y = 23;
+			var z = x + y;
+			document.getElementById("add").innerHTML = z;
+		}
+
+		function myFirstJavaScript() {
+			document.getElementById("myFirstJavaScript").innerHTML = "Javascript Practice";
+		}
+
+		document.getElementById("jsNo").innerHTML = 10.50;
+		document.getElementById("jd").innerHTML = "John Doe with couple quotes";
+		document.getElementById("jd1").innerHTML = 'John Doe with single quotes';
+		
+		function JsVar() {
+			var x;
+			x = 9;
+			document.getElementById("JsVar").innerHTML = x;
+		}
+
+		document.getElementById("JsOper").innerHTML = (5 + 6) * 10;
+
+		function AssOper() {
+			var x, y;
+			var x = 7;
+			var y = 10;
+			document.getElementById("AssOper").innerHTML = x*y;
+		}
+
+		var map = new ol.Map({
+			layers:[
+				new ol.layer.Tile({
+					source: new ol.source.OSM()
+				})
+			],
+			target: 'map',
+			view: new ol.View({
+				center: [0,0],
+				zoom: 4
+			})
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Draw and Modify Features</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/ol.css">
+
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/ol.js"></script>
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+	<div id="map" class="map"></div>
+	<form class="form-inline">
+		<label>Geometry type</label>
+		<select id="type">
+			<option value="Point">Point</option>
+			<option value="LineString">LineString</option>
+			<option value="Polygon">Polygon</option>
+			<option value="Circle">Circle</option>
+		</select>
+	</form>
+
+	<!-- <h1 id="demo">My Map</h1>
+	<button type="button" onclick="myFunction()">Click now</button>
+ -->
+	<!-- <p id="myFirstJavaScript">Change it</p>
+	<button type="button" onclick="myFirstJavaScript()">Click me</button> -->
+	
+	<!-- <button id="add" type="button" onclick="add()">Add Function</button>  -->
+	<!-- <p id="add"></p> -->
+
+	<!-- <p id="jsNo" onclick="JsNumbers()"></p>
+	<p id="jd"></p>
+	<p id="jd1"></p>
+
+	<button type="button" id="JsVar" onclick="JsVar()">JavaScript Varriable</button>
+
+	<p id="JsOper"></p>
+	<button type="button" onclick="AssOper()">Assignment Operator</button>
+	<p id="AssOper"></p> -->
+
+	<script type="text/javascript">
+		function myFunction() {
+			document.getElementById("demo").innerHTML = "Good morning!";
+		}
+
+		function add() {
+			var x = 12;
+			var y = 23;
+			var z = x + y;
+			document.getElementById("add").innerHTML = z;
+		}
+
+		function myFirstJavaScript() {
+			document.getElementById("myFirstJavaScript").innerHTML = "Javascript Practice";
+		}
+
+		function blockFunction() {
+		document.getElementById("jsNo").innerHTML = 10.50;
+		document.getElementById("jd").innerHTML = "John Doe with couple quotes";
+		document.getElementById("jd1").innerHTML = 'John Doe with single quotes';
+		}
+
+		function JsVar() {
+			var x;
+			x = 9;
+			document.getElementById("JsVar").innerHTML = x;
+		}
+
+		function JavaScriptOperatorsFunction() {
+			document.getElementById("JsOper").innerHTML = (5 + 6) * 10;
+		}
+
+		function AssOper() {
+			var x, y;
+			var x = 7;
+			var y = 10;
+			document.getElementById("AssOper").innerHTML = x*y;
+		}
+
+		var raster = new ol.layer.Tile({
+			source: new ol.source.OSM()
+		});
+
+		var source = new ol.source.Vector();
+		var vector = new ol.layer.Vector({
+			source: source,
+			style: new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: 'rgba(255, 255, 255, 0.2)'
+				}),
+				stroke: new ol.style.Stroke({
+					color: 'ffcc33',
+					width: 2
+				}),
+				image: new ol.style.Circle({
+					radius: 7,
+					fill: new ol.style.Fill({
+						color: '#ffcc33'
+					})
+				})
+			})
+		});
+		var map = new ol.Map({			
+			layers: [raster, vector],
+			target: 'map',
+			view: new ol.View({
+				center: [-11000000, 4600000],
+				zoom: 4
+			})
+		});
+
+		var modify = new ol.interaction.Modify({source: source});
+		map.addInteraction(modify);
+		
+		var draw, snap; // global varriable, so we can remove them later
+		var typeSelect = document.getElementById("type");
+
+		function addInteractions(){
+			draw = new ol.interaction.Draw({
+				source: source,
+				type: (typeSelect.value)
+			});
+			map.addInteraction(draw);
+			snap = new ol.interaction.Snap({source: source});
+			map.addInteraction(snap);
+		}
+
+		//Handle change event
+		typeSelect.onchange = function() {
+			map.removeInteraction(draw);
+			map.removeInteraction(snap);
+			addInteractions();
+		};
+
+		addInteractions();
+
+	</script>
+</body>
+</html>

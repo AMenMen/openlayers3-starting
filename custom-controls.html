@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Custom Controls</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/ol.css">
+
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/ol.js"></script>
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+	<div id="map" class="map"></div>
+	<p>This example creates a "rotate to north" button</p>
+	<p>Related API documentation: <span style="color: dodgerblue;">ol.Map , ol.View , ol.control , ol.control.Control , ol.layer.Tile , ol.source.OSM</span></p>
+	<script type="text/javascript">
+		// Define a namespace for the application
+		window.app = {};
+		var app = window.app;
+
+		// Define rotate to north control
+		
+		// @constructor
+		// @extends {ol.control.Control}
+		// @param {Object=} opt_options Control options.
+		app.RotateNorthControl = function(opt_options){
+			var options = opt_options || {};
+
+			var button = document.createElement('button');
+			button.innerHTML = 'N';
+
+			var this_ = this;
+			var handleRotateNorth = function(){
+				this_.getMap().getView().setRotation(0);
+			};
+
+			button.addEventListener('click', handleRotateNorth, false);
+			button.addEventListener('touchstart', handleRotateNorth, false);
+
+			var element = document.createElement('div');
+			element.className = 'rotate-north ol-unselectable, ol.control';
+			element.appendChild(button);
+
+			ol.control.Control.call(this, {
+				element: element,
+				target: options.target
+			});
+		};
+
+		ol.inherits(app.RotateNorthControl, ol.control.Control);
+
+		// Create map, giving it a rotate to north control
+
+		var osmSource = new ol.source.OSM();
+		var tileLayer = new ol.layer.Tile({source: osmSource});
+		var map = new ol.Map({
+			control: ol.control.defaults({
+				attributionOptions: ({
+					collapsible: false
+				})
+			}).extend([
+				new app.RotateNorthControl()
+			]),
+			layers:[
+				tileLayer
+			],
+			target: 'map',
+			view: new ol.View({
+				center: [0,0],
+				zoom: 2,
+				rotation: 2
+			})
+		});
+	</script>
+</body>
+</html>
